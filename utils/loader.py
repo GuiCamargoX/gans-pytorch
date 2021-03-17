@@ -27,15 +27,12 @@ def load_dataset(name='mnist', size=(28, 28), val_split=0.25, seed=0):
     # Defining the torch seed
     torch.manual_seed(seed)
 
-    # Checks if it is supposed to load custom datasets
-    #
-
     # Loads the training data
     train = DATASETS[name](root='./data', train=True, download=True,
                            transform=tv.transforms.Compose(
                                [tv.transforms.ToTensor(),
                                 tv.transforms.Resize(size),
-                                tv.transforms.Normalize(mean=(0.5), std=(0.5)) ])
+                                tv.transforms.Normalize(mean=(0.5), std=(0.5))])
                            )
 
     # Splitting the training data into training/validation
@@ -47,7 +44,7 @@ def load_dataset(name='mnist', size=(28, 28), val_split=0.25, seed=0):
                           transform=tv.transforms.Compose(
                               [tv.transforms.ToTensor(),
                                tv.transforms.Resize(size),
-                               tv.transforms.Normalize(mean=(0.5), std=(0.5)) ])
+                               tv.transforms.Normalize(mean=(0.5), std=(0.5))])
                           )
 
     return train, val, test
