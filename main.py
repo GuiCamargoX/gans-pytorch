@@ -1,14 +1,18 @@
-import argparse, os, torch
-from models.GAN import GAN
-from models.CGAN import CGAN
-from models.LSGAN import LSGAN
-from models.DRAGAN import DRAGAN
+import argparse
+import os
+
+import torch
+
 from models.ACGAN import ACGAN
+from models.BEGAN import BEGAN
+from models.CGAN import CGAN
+from models.DRAGAN import DRAGAN
+from models.EBGAN import EBGAN
+from models.GAN import GAN
+from models.infoGAN import infoGAN
+from models.LSGAN import LSGAN
 from models.WGAN import WGAN
 from models.WGAN_GP import WGAN_GP
-from models.infoGAN import infoGAN
-from models.EBGAN import EBGAN
-from models.BEGAN import BEGAN
 
 """parsing and configuration"""
 def parse_args():

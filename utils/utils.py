@@ -1,10 +1,11 @@
-import os
 import gzip
-import torch
-import torch.nn as nn
-import numpy as np
+import os
+
 import imageio
 import matplotlib.pyplot as plt
+import numpy as np
+import torch
+import torch.nn as nn
 from torchvision import datasets, transforms
 
 

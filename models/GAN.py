@@ -1,8 +1,14 @@
-import utils, torch, time, os, pickle
+import os
+import pickle
+import time
+
 import numpy as np
+import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
+
+import utils
 import utils.loader as l
 from utils import utils
 

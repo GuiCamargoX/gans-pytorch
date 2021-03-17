@@ -1,12 +1,17 @@
-import torch, time, os, pickle
+import os
+import pickle
+import time
+
 import numpy as np
+import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import grad
-
 from torch.utils.data import DataLoader
+
 import utils.loader as l
 from utils import utils
+
 
 class generator(nn.Module):
     # Network Architecture is exactly same as in infoGAN (https://arxiv.org/abs/1606.03657)

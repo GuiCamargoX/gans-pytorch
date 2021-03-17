@@ -1,13 +1,19 @@
-import torch, time, os, pickle, itertools
+import itertools
+import os
+import pickle
+import time
+
+import matplotlib.pyplot as plt
 import numpy as np
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-import matplotlib.pyplot as plt
-
 from torch.utils.data import DataLoader
+
 import utils.loader as l
 from utils import utils
+
 
 class generator(nn.Module):
     # Network Architecture is exactly same as in infoGAN (https://arxiv.org/abs/1606.03657)
