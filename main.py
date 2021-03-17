@@ -9,7 +9,7 @@ from models.CGAN import CGAN
 from models.DRAGAN import DRAGAN
 from models.EBGAN import EBGAN
 from models.GAN import GAN
-from models.infoGAN import infoGAN
+from models.InfoGAN import InfoGAN
 from models.LSGAN import LSGAN
 from models.WGAN import WGAN
 from models.WGAN_GP import WGAN_GP
@@ -20,7 +20,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description=desc)
 
     parser.add_argument('--gan_type', type=str, default='CGAN',
-                        choices=['GAN', 'CGAN', 'infoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'WGAN_GP', 'DRAGAN', 'LSGAN'],
+                        choices=['GAN', 'CGAN', 'InfoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'WGAN_GP', 'DRAGAN', 'LSGAN'],
                         help='The type of GAN')
     parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fmnist'],
                         help='The name of dataset')
@@ -86,8 +86,8 @@ def main():
         gan = CGAN(args)
     elif args.gan_type == 'ACGAN':
         gan = ACGAN(args)
-    elif args.gan_type == 'infoGAN':
-        gan = infoGAN(args, SUPERVISED=False)
+    elif args.gan_type == 'InfoGAN':
+        gan = InfoGAN(args, supervised=False)
     elif args.gan_type == 'EBGAN':
         gan = EBGAN(args)
     elif args.gan_type == 'WGAN':

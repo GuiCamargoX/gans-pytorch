@@ -13,7 +13,7 @@ from utils import utils
 
 
 class generator(nn.Module):
-    # Network Architecture is exactly same as in infoGAN (https://arxiv.org/abs/1606.03657)
+    # Network Architecture is exactly same as in InfoGAN (https://arxiv.org/abs/1606.03657)
     # Architecture : FC1024_BR-FC7x7x128_BR-(64)4dc2s_BR-(1)4dc2s_S
     def __init__(self, input_dim=100, output_dim=1, input_size=32):
         super(generator, self).__init__()
