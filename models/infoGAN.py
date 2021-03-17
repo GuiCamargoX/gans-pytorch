@@ -89,7 +89,7 @@ class discriminator(nn.Module):
         return a, b, c
 
 class InfoGAN(object):
-    def __init__(self, args, SUPERVISED=True):
+    def __init__(self, args, supervised=True):
         # parameters
         self.epoch = args.epoch
         self.batch_size = args.batch_size
@@ -101,7 +101,7 @@ class InfoGAN(object):
         self.model_name = args.gan_type
         self.input_size = args.input_size
         self.z_dim = 62
-        self.SUPERVISED = SUPERVISED        # if it is true, label info is directly used for code
+        self.supervised = supervised        # if it is true, label info is directly used for code
         self.len_discrete_code = 10         # categorical distribution (i.e. label)
         self.len_continuous_code = 2        # gaussian distribution (e.g. rotation, thickness)
         self.sample_num = self.len_discrete_code ** 2
@@ -192,7 +192,7 @@ class InfoGAN(object):
                 if iter == self.data_loader.dataset.__len__() // self.batch_size:
                     break
                 z_ = torch.rand((self.batch_size, self.z_dim))
-                if self.SUPERVISED == True:
+                if self.supervised == True:
                     y_disc_ = torch.zeros((self.batch_size, self.len_discrete_code)).scatter_(1, y_.type(torch.LongTensor).unsqueeze(1), 1)
                 else:
                     y_disc_ = torch.from_numpy(
