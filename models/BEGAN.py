@@ -6,9 +6,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader
 
-import utils.loader as l
 from utils import utils
 
 
@@ -96,11 +94,9 @@ class BEGAN(object):
         self.lambda_ = 0.001
         self.k = 0.0
         self.lr_lower_boundary = 0.00002
-        self.seed = args.seed
 
         # Loads the data
-        train, val, _ = l.load_dataset(name=self.dataset, size=self.input_size, seed=self.seed)
-        self.data_loader =  DataLoader(train,  batch_size=self.batch_size, num_workers=2)
+        self.data_loader =  args.dataloader
         data = self.data_loader.__iter__().__next__()[0]
 
         # networks init

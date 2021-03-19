@@ -6,10 +6,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader
 
-import utils
-import utils.loader as l
 from utils import utils
 
 
@@ -91,12 +88,10 @@ class GAN(object):
         self.gpu_mode = args.gpu_mode
         self.model_name = args.gan_type
         self.input_size = args.input_size
-        self.z_dim = 62
-        self.seed = args.seed
+        self.z_dim = 64
 
         # Loads the data
-        train, val, _ = l.load_dataset(name=self.dataset, size=self.input_size, seed=self.seed)
-        self.data_loader =  DataLoader(train,  batch_size=self.batch_size, num_workers=2)
+        self.data_loader =  args.dataloader
         data = self.data_loader.__iter__().__next__()[0]
         print(data.shape)
 
@@ -154,9 +149,7 @@ class GAN(object):
                 self.D_optimizer.zero_grad()
 
                 D_real = self.D(x_)
-                print(self.input_size.shape)
                 D_real_loss = self.BCE_loss(D_real, self.y_real_)
-                print(epoch_start_time[100000])
 
                 G_ = self.G(z_)
                 D_fake = self.D(G_)

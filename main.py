@@ -14,6 +14,8 @@ from models.LSGAN import LSGAN
 from models.WGAN import WGAN
 from models.WGAN_GP import WGAN_GP
 
+import utils.loader as l
+
 """parsing and configuration"""
 def parse_args():
     desc = "Pytorch implementation of GAN collections"
@@ -22,9 +24,9 @@ def parse_args():
     parser.add_argument('--gan_type', type=str, default='CGAN',
                         choices=['GAN', 'CGAN', 'InfoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'WGAN_GP', 'DRAGAN', 'LSGAN'],
                         help='The type of GAN')
-    parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fmnist'],
+    parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fmnist','odir5k', 'ichallenge'],
                         help='The name of dataset')
-    parser.add_argument('--epoch', type=int, default=10, help='The number of epochs to run')
+    parser.add_argument('--epoch', type=int, default=70, help='The number of epochs to run')
     parser.add_argument('--batch_size', type=int, default=64, help='The size of batch')
     parser.add_argument('--input_size', type=int, default=28, help='The size of input image')
     parser.add_argument('--save_dir', type=str, default='logs',
@@ -63,9 +65,9 @@ def check_args(args):
 
     # --batch_size
     try:
-        assert args.batch_size >= 1
+        assert args.batch_size > 1
     except:
-        print('batch size must be larger than or equal to one')
+        print('batch size must be more than one because the batch normalization')
 
     return args
 
@@ -78,6 +80,10 @@ def main():
 
     if args.benchmark_mode:
         torch.backends.cudnn.benchmark = True
+
+    # Loads the data
+    train, val, _ = l.load_datasetloader(dataset=args.dataset, input_size=args.input_size, batch=args.batch_size, num_workers=10)
+    args.dataloader = train
 
         # declare instance for GAN
     if args.gan_type == 'GAN':

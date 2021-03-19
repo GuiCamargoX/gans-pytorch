@@ -6,11 +6,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader
 
-import utils.loader as l
 from utils import utils
-
 
 class generator(nn.Module):
     # Network Architecture is exactly same as in InfoGAN (https://arxiv.org/abs/1606.03657)
@@ -103,11 +100,9 @@ class ACGAN(object):
         self.z_dim = 62
         self.class_num = 10
         self.sample_num = self.class_num ** 2
-        self.seed = args.seed
 
         # Loads the data
-        train, val, _ = l.load_dataset(name=self.dataset, size=self.input_size, seed=self.seed)
-        self.data_loader =  DataLoader(train,  batch_size=self.batch_size, num_workers=2)
+        self.data_loader =  args.dataloader
         data = self.data_loader.__iter__().__next__()[0]
 
         # networks init
