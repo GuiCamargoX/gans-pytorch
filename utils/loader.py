@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split
 DATASETS = {
     'fmnist': tv.datasets.FashionMNIST,
     'kmnist': tv.datasets.KMNIST,
+    'cifar10': tv.datasets.CIFAR10,
     'mnist': tv.datasets.MNIST
 }
 
@@ -131,7 +132,7 @@ def load_odir5k(size):
 def load_dataset(name='mnist', size=(28, 28), val_split=0.25):
 
     # Loads the training data
-    train = DATASETS[name](root='./data', train=True, download=True,
+    train = DATASETS[name](root='./data/'+name, train=True, download=True,
                            transform=tv.transforms.Compose(
                                [tv.transforms.ToTensor(),
                                 tv.transforms.Resize(size),
@@ -143,7 +144,7 @@ def load_dataset(name='mnist', size=(28, 28), val_split=0.25):
         train, [int(len(train) * (1 - val_split)), int(len(train) * val_split)])
 
     # Loads the testing data
-    test = DATASETS[name](root='./data', train=False, download=True,
+    test = DATASETS[name](root='./data/'+name, train=False, download=True,
                           transform=tv.transforms.Compose(
                               [tv.transforms.ToTensor(),
                                tv.transforms.Resize(size),

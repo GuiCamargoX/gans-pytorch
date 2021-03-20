@@ -24,9 +24,9 @@ def parse_args():
     parser.add_argument('--gan_type', type=str, default='CGAN',
                         choices=['GAN', 'CGAN', 'InfoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'WGAN_GP', 'DRAGAN', 'LSGAN'],
                         help='The type of GAN')
-    parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fmnist','odir5k', 'ichallenge'],
+    parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fmnist','odir5k', 'ichallenge','cifar10'],
                         help='The name of dataset')
-    parser.add_argument('--epoch', type=int, default=70, help='The number of epochs to run')
+    parser.add_argument('--epoch', type=int, default=10, help='The number of epochs to run')
     parser.add_argument('--batch_size', type=int, default=64, help='The size of batch')
     parser.add_argument('--input_size', type=int, default=28, help='The size of input image')
     parser.add_argument('--save_dir', type=str, default='logs',
@@ -116,6 +116,10 @@ def main():
     # visualize learned generator
     gan.visualize_results(args.epoch)
     print(" [*] Testing finished!")
+
+    # inception score
+    #print ("Calculating Inception Score...")
+    #print (inception_score(IgnoreLabelDataset(cifar), cuda=True, batch_size=32, resize=True, splits=10))
 
 if __name__ == '__main__':
     main()
