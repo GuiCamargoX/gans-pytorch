@@ -14,7 +14,7 @@ from models.LSGAN import LSGAN
 from models.WGAN import WGAN
 from models.WGAN_GP import WGAN_GP
 
-import utils.loader as l
+import tools.loader as l
 
 """parsing and configuration"""
 def parse_args():

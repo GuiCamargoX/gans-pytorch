@@ -7,7 +7,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from utils import utils
+from tools import utils
 
 class generator(nn.Module):
     # Network Architecture is exactly same as in InfoGAN (https://arxiv.org/abs/1606.03657)
