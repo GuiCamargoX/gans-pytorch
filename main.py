@@ -14,6 +14,8 @@ from models.LSGAN import LSGAN
 from models.WGAN import WGAN
 from models.WGAN_GP import WGAN_GP
 
+from models.AAE import AAE
+
 import tools.loader as l
 
 """parsing and configuration"""
@@ -22,9 +24,9 @@ def parse_args():
     parser = argparse.ArgumentParser(description=desc)
 
     parser.add_argument('--gan_type', type=str, default='CGAN',
-                        choices=['GAN', 'CGAN', 'InfoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'WGAN_GP', 'DRAGAN', 'LSGAN'],
+                        choices=['AAE','GAN', 'CGAN', 'InfoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'WGAN_GP', 'DRAGAN', 'LSGAN'],
                         help='The type of GAN')
-    parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fmnist','odir5k', 'ichallenge','cifar10'],
+    parser.add_argument('--dataset', type=str, default='fmnist', choices=['mnist', 'fmnist','odir5k', 'ichallenge','cifar10'],
                         help='The name of dataset')
     parser.add_argument('--epoch', type=int, default=10, help='The number of epochs to run')
     parser.add_argument('--batch_size', type=int, default=64, help='The size of batch')
@@ -106,6 +108,8 @@ def main():
         gan = LSGAN(args)
     elif args.gan_type == 'BEGAN':
         gan = BEGAN(args)
+    elif args.gan_type == 'AAE':
+        gan = AAE(args)
     else:
         raise Exception("[!] There is no option for " + args.gan_type)
 
