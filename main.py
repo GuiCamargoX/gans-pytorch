@@ -24,12 +24,12 @@ def parse_args():
     desc = "Pytorch implementation of GAN collections"
     parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('--gan_type', type=str, default='BEGAN',
+    parser.add_argument('--gan_type', type=str, default='InfoGAN',
                         choices=['GAN','LSGAN','WGAN','WGAN_GP','DRAGAN','EBGAN', 'BEGAN', 'CGAN', 'ACGAN', 'InfoGAN' ],
                         help='The type of GAN')
     parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fmnist', 'amd', 'cifar10' ],
                         help='The name of dataset')
-    parser.add_argument('--epoch', type=int, default=1, help='The number of epochs to run')
+    parser.add_argument('--epoch', type=int, default=10, help='The number of epochs to run')
     parser.add_argument('--batch_size', type=int, default=64, help='The size of batch')
     parser.add_argument('--input_size', type=int, default=28, help='The size of input image')
     parser.add_argument('--save_dir', type=str, default='logs',

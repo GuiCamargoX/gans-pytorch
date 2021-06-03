@@ -91,7 +91,7 @@ def FID(gan, dataloader ):
  
     with torch.no_grad(): # You don't need to calculate gradients here, so you do this to save memory
         #try:
-        for real_example, _ in tqdm(dataloader, total=len(dataloader)): # Go by batch
+        for real_example, y in tqdm(dataloader, total=len(dataloader)): # Go by batch
             
             if real_example.shape[1] == 1:
                 real_example = real_example.repeat(1,3,1,1)
@@ -100,7 +100,7 @@ def FID(gan, dataloader ):
             real_features = inception_model( real_samples ).detach().to('cpu') # Move features to CPU
             real_features_list.append(real_features)
                 #print(2)
-            fake_samples =  gan.get_noise(len(real_example) ).to(device)
+            fake_samples =  gan.get_noise(len(real_example), y).to(device)
             fake_samples = gen(fake_samples)
             if fake_samples.shape[1] == 1:
                 fake_samples = fake_samples.repeat(1,3,1,1)

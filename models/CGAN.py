@@ -37,9 +37,8 @@ class generator(nn.Module):
         )
         utils.initialize_weights(self)
 
-    def forward(self, input, label):
-        x = torch.cat([input, label], 1)
-        x = self.fc(x)
+    def forward(self, input):
+        x = self.fc(input)
         x = x.view(-1, 128, (self.input_size // 4), (self.input_size // 4))
         x = self.deconv(x)
 
@@ -170,7 +169,8 @@ class CGAN(object):
                 D_real = self.D(x_, y_fill_)
                 D_real_loss = self.BCE_loss(D_real, self.y_real_)
 
-                G_ = self.G(z_, y_vec_)
+                z_y = torch.cat([z_, y_vec_], 1)
+                G_ = self.G(z_y)
                 D_fake = self.D(G_, y_fill_)
                 D_fake_loss = self.BCE_loss(D_fake, self.y_fake_)
 
@@ -183,7 +183,7 @@ class CGAN(object):
                 # update G network
                 self.G_optimizer.zero_grad()
 
-                G_ = self.G(z_, y_vec_)
+                G_ = self.G(z_y)
                 D_fake = self.D(G_, y_fill_)
                 G_loss = self.BCE_loss(D_fake, self.y_real_)
                 self.train_hist['G_loss'].append(G_loss.item())
@@ -219,15 +219,17 @@ class CGAN(object):
 
         if fix:
             """ fixed noise """
-            samples = self.G(self.sample_z_, self.sample_y_)
+            z_y = torch.cat([self.sample_z_, self.sample_y_], 1)
+            samples = self.G(z_y)
         else:
             """ random noise """
             sample_y_ = torch.zeros(self.batch_size, self.class_num).scatter_(1, torch.randint(0, self.class_num - 1, (self.batch_size, 1)).type(torch.LongTensor), 1)
             sample_z_ = torch.rand((self.batch_size, self.z_dim))
             if self.gpu_mode:
                 sample_z_, sample_y_ = sample_z_.cuda(), sample_y_.cuda()
-
-            samples = self.G(sample_z_, sample_y_)
+            
+            z_y = torch.cat([sample_z_, sample_y_], 1)
+            samples = self.G(z_y)
 
         if self.gpu_mode:
             samples = samples.cpu().data.numpy().transpose(0, 2, 3, 1)
@@ -256,5 +258,7 @@ class CGAN(object):
         self.G.load_state_dict(torch.load(os.path.join(save_dir, self.model_name + '_G.pkl')))
         self.D.load_state_dict(torch.load(os.path.join(save_dir, self.model_name + '_D.pkl')))
 
-    def get_noise(self,labels):
-        pass
+    def get_noise(self, number_examples, labels=None ):
+        y_vec_ = torch.zeros((number_examples, self.class_num)).scatter_(1, labels.type(torch.LongTensor).unsqueeze(1), 1)
+        z_ = torch.rand((number_examples, self.z_dim))
+        return torch.cat([z_, y_vec_], 1)
