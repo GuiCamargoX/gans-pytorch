@@ -236,3 +236,6 @@ class GAN(object):
 
         self.G.load_state_dict(torch.load(os.path.join(save_dir, self.model_name + '_G.pkl')))
         self.D.load_state_dict(torch.load(os.path.join(save_dir, self.model_name + '_D.pkl')))
+
+    def get_noise(self,number_examples, labels=None):
+        return torch.rand( (number_examples, self.z_dim))

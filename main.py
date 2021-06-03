@@ -17,18 +17,19 @@ from models.WGAN_GP import WGAN_GP
 from models.AAE import AAE
 
 import tools.loader as l
+import tools.metrics as metric
 
 """parsing and configuration"""
 def parse_args():
     desc = "Pytorch implementation of GAN collections"
     parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('--gan_type', type=str, default='CGAN',
-                        choices=['AAE','GAN', 'CGAN', 'InfoGAN', 'ACGAN', 'EBGAN', 'BEGAN', 'WGAN', 'WGAN_GP', 'DRAGAN', 'LSGAN'],
+    parser.add_argument('--gan_type', type=str, default='BEGAN',
+                        choices=['GAN','LSGAN','WGAN','WGAN_GP','DRAGAN','EBGAN', 'BEGAN', 'CGAN', 'ACGAN', 'InfoGAN' ],
                         help='The type of GAN')
-    parser.add_argument('--dataset', type=str, default='fmnist', choices=['mnist', 'fmnist','odir5k', 'ichallenge','cifar10'],
+    parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fmnist', 'amd', 'cifar10' ],
                         help='The name of dataset')
-    parser.add_argument('--epoch', type=int, default=10, help='The number of epochs to run')
+    parser.add_argument('--epoch', type=int, default=1, help='The number of epochs to run')
     parser.add_argument('--batch_size', type=int, default=64, help='The size of batch')
     parser.add_argument('--input_size', type=int, default=28, help='The size of input image')
     parser.add_argument('--save_dir', type=str, default='logs',
@@ -84,7 +85,7 @@ def main():
         torch.backends.cudnn.benchmark = True
 
     # Loads the data
-    train, val, _ = l.load_datasetloader(dataset=args.dataset, input_size=args.input_size, batch=args.batch_size, num_workers=10)
+    train, val, _ = l.load_datasetloader(dataset=args.dataset, input_size=args.input_size, batch=args.batch_size, num_workers=4)
     args.dataloader = train
 
         # declare instance for GAN
@@ -123,6 +124,10 @@ def main():
 
     # inception score
     #print ("Calculating Inception Score...")
+    score=metric.FID(gan, train)
+    with open(args.result_dir+'/'+ args.dataset+'/'+ args.gan_type+ r'/fid.txt', 'w') as writer:
+        writer.write('FID : {} '.format(score))
+    print(score)
     #print (inception_score(IgnoreLabelDataset(cifar), cuda=True, batch_size=32, resize=True, splits=10))
 
 if __name__ == '__main__':

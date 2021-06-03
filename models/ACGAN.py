@@ -98,7 +98,7 @@ class ACGAN(object):
         self.model_name = args.gan_type
         self.input_size = args.input_size
         self.z_dim = 62
-        self.class_num = 10
+        self.class_num = 2
         self.sample_num = self.class_num ** 2
 
         # Loads the data

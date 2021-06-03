@@ -88,7 +88,7 @@ class LSGAN(object):
         self.gpu_mode = args.gpu_mode
         self.model_name = args.gan_type
         self.input_size = args.input_size
-        self.z_dim = 62
+        self.z_dim = 64
 
         # Loads the data
         self.data_loader =  args.dataloader
@@ -233,3 +233,6 @@ class LSGAN(object):
 
         self.G.load_state_dict(torch.load(os.path.join(save_dir, self.model_name + '_G.pkl')))
         self.D.load_state_dict(torch.load(os.path.join(save_dir, self.model_name + '_D.pkl')))
+
+    def get_noise(self,number_examples, labels=None):
+        return torch.rand( (number_examples, self.z_dim))
