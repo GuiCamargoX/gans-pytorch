@@ -24,14 +24,14 @@ def parse_args():
     desc = "Pytorch implementation of GAN collections"
     parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('--gan_type', type=str, default='InfoGAN',
+    parser.add_argument('--gan_type', type=str, default='ACGAN',
                         choices=['GAN','LSGAN','WGAN','WGAN_GP','DRAGAN','EBGAN', 'BEGAN', 'CGAN', 'ACGAN', 'InfoGAN' ],
                         help='The type of GAN')
-    parser.add_argument('--dataset', type=str, default='mnist', choices=['mnist', 'fmnist', 'amd', 'cifar10' ],
+    parser.add_argument('--dataset', type=str, default='amd', choices=['mnist', 'fmnist', 'amd', 'cifar10' ],
                         help='The name of dataset')
-    parser.add_argument('--epoch', type=int, default=10, help='The number of epochs to run')
-    parser.add_argument('--batch_size', type=int, default=64, help='The size of batch')
-    parser.add_argument('--input_size', type=int, default=28, help='The size of input image')
+    parser.add_argument('--epoch', type=int, default=50, help='The number of epochs to run')
+    parser.add_argument('--batch_size', type=int, default=32, help='The size of batch')
+    parser.add_argument('--input_size', type=int, default=100, help='The size of input image')
     parser.add_argument('--save_dir', type=str, default='logs',
                         help='Directory name to save the model')
     parser.add_argument('--result_dir', type=str, default='results', help='Directory name to save the generated images')
@@ -85,7 +85,7 @@ def main():
         torch.backends.cudnn.benchmark = True
 
     # Loads the data
-    train, val, _ = l.load_datasetloader(dataset=args.dataset, input_size=args.input_size, batch=args.batch_size, num_workers=4)
+    train, val, _ = l.load_datasetloader(dataset=args.dataset, input_size=args.input_size, batch=args.batch_size, num_workers=8)
     args.dataloader = train
 
         # declare instance for GAN
